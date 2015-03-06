@@ -95,6 +95,8 @@ License: https://github.com/ashleydw/lightbox/blob/master/LICENSE
             return this.showYoutubeVideo(video_id);
           } else if (this.options.type === 'vimeo') {
             return this.showVimeoVideo(this.options.remote);
+          } else if (this.options.type === 'mp4') {
+            return this.showMP4Video(this.options.remote);
           } else if (this.options.type === 'instagram') {
             return this.showInstagramVideo(this.options.remote);
           } else if (this.options.type === 'url') {
@@ -207,6 +209,9 @@ License: https://github.com/ashleydw/lightbox/blob/master/LICENSE
       } else if (type === 'vimeo' || (video_id = this.getVimeoId(src))) {
         this.options.type = 'vimeo';
         return this.showVimeoVideo(video_id);
+      } else if (type === 'mp4') {
+        this.options.type = 'mp4';
+        return this.showMP4Video(video_id);
       } else if (type === 'instagram' || (video_id = this.getInstagramId(src))) {
         this.options.type = 'instagram';
         return this.showInstagramVideo(video_id);
@@ -266,6 +271,19 @@ License: https://github.com/ashleydw/lightbox/blob/master/LICENSE
         return this.modal_arrows.css('display', 'none');
       }
     },
+	showMP4Video: function(id) {
+		var aspectRatio, height, width;
+		aspectRatio = 500 / 281;
+		width = this.$element.data('width') || 560;
+		width = this.checkDimensions(width);
+		height = width / aspectRatio;
+		this.resize(width);
+		this.lightbox_body.html('<iframe width="' + width + '" height="' + height + '" src="' + id + '" frameborder="0" allowfullscreen></iframe>');
+		this.options.onContentLoaded.call(this);
+		if (this.modal_arrows) {
+			return this.modal_arrows.css('display', 'none');
+		}
+	},
     showInstagramVideo: function(id) {
       var width;
       width = this.$element.data('width') || 612;
